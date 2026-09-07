@@ -18,18 +18,20 @@ const cmd = process.argv[2];
 const arg = process.argv[3];
 
 function launchGui(silent = false) {
-  // Launch electron with this app directory.
   let electron;
   try {
-    electron = require("electron"); // resolves to the electron binary path
+    electron = require("electron");
   } catch (e) {
-    if (!silent) {
-      console.error("Electron is not installed or available. Use the CLI commands.");
-    }
-    return;
+    electron = "npx";
   }
   const appDir = path.join(__dirname, "..");
-  const child = spawn(electron, [appDir], { stdio: "ignore", detached: true });
+  const args = electron === "npx" ? ["electron", appDir] : [appDir];
+  const child = spawn(electron, args, { stdio: "ignore", detached: true });
+  child.on("error", () => {
+    if (!silent) {
+      console.error("To launch the GUI menu bar app, run `npm install -g electron` or download the prebuilt app from GitHub Releases.");
+    }
+  });
   child.unref();
 }
 
