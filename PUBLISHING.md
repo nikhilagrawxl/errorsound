@@ -203,8 +203,47 @@ users can still run it via "More info -> Run anyway".
 
 - **Now / testers:** Section 1 (GitHub source) + Section 3 (attach an unsigned
   `.dmg`/`.exe` to a Release, with a note to right-click -> Open on Mac).
-- **Wider release:** Section 2 (npm) + Section 4 (CI auto-builds).
+- **Wider release:** Section 2 (npm) + Section 4 (CI auto-builds) + Section 6 (Homebrew Tap).
 - **Polished, no warnings:** add Section 5 (Apple Developer signing).
+
+---
+
+## 6. Publish to Homebrew (Personal Tap)
+
+Give users `brew install nikhilagrawxl/tap/errorsound`.
+
+1. Create a public GitHub repository named **`homebrew-tap`** under your account (`nikhilagrawxl/homebrew-tap`).
+2. Inside `homebrew-tap`, create `Formula/errorsound.rb`:
+
+```ruby
+class Errorsound < Formula
+  desc "Play a sound when a terminal command fails"
+  homepage "https://github.com/nikhilagrawxl/errorsound"
+  url "https://github.com/nikhilagrawxl/errorsound/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "f843bb713738df47db9d072855c0b1f0882ae1852a4769c8f2ca7695db127fc7"
+  license "MIT"
+
+  depends_on "node"
+
+  def install
+    cd "app" do
+      system "npm", "install", *std_npm_args
+      bin.install_symlink Dir["#{libexec}/bin/*"]
+    end
+  end
+
+  test do
+    system "#{bin}/errorsound", "--help"
+  end
+end
+```
+
+3. Users can now install with:
+   ```bash
+   brew install nikhilagrawxl/tap/errorsound
+   ```
+
+---
 
 ## Quick checklist per release
 
@@ -213,4 +252,6 @@ users can still run it via "More info -> Run anyway".
 - [ ] `npm pack --dry-run` shows only source (no node_modules)
 - [ ] Push tag -> CI builds installers (or build locally)
 - [ ] `npm publish` (if using npm)
+- [ ] Update `sha256` in `homebrew-tap/Formula/errorsound.rb`
 - [ ] Verify the GitHub Release has all 3 OS artifacts
+
