@@ -1,169 +1,131 @@
-# errorsound
+# 🔊 errorsound
 
 Play a sound whenever a terminal command fails (non-zero exit code).
 
-- **macOS / Linux** — bash & zsh (`errorsound.sh`)
-- **Windows** — PowerShell (`errorsound.ps1`)
+Available for **macOS**, **Windows (PowerShell)**, and **Linux**. Includes both a lightweight **CLI tool** and a **Menu Bar / System Tray GUI app**.
 
 ---
 
-## macOS / Linux (bash & zsh)
+## ⚡ Installation
 
-### Install
+### 🍏 macOS / Linux
 
+#### Option 1: Homebrew (Recommended for macOS)
 ```bash
-./install.sh
+brew install nikhilagrawxl/tap/errorsound
+errorsound install
 ```
 
-Then open a new terminal, or reload your shell:
-
+#### Option 2: npm
 ```bash
-source ~/.bashrc     # or: source ~/.zshrc
+npm install -g errorsound
+errorsound install
 ```
 
-### Try it
-
+#### Option 3: One-Line Curl Install
 ```bash
-somebadcommand    # plays the sound
-ls                # silent (success)
+curl -fsSL https://raw.githubusercontent.com/nikhilagrawxl/errorsound/main/install.sh | bash
 ```
-
-### Uninstall
-
-```bash
-./uninstall.sh
-```
-
-Note: on Linux, `paplay`/`aplay` play `.wav` reliably but usually not `.mp3` —
-use the bundled `sound.wav` (run `soundfile ~/.errorsound/sound.wav`) or supply
-your own `.wav`.
+*(After installing, reload your shell or open a new terminal: `source ~/.zshrc` or `source ~/.bashrc`)*
 
 ---
 
-## Windows (PowerShell)
+### 🪟 Windows (PowerShell)
 
-### Install — the easy way
-
-1. Download / clone the project, then open **PowerShell** in the project folder
-   (Shift + right-click the folder → "Open PowerShell window here").
-2. If this is your first time running scripts, allow it once:
-   ```powershell
-   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-   ```
-3. Run the installer:
-   ```powershell
-   .\install.ps1
-   ```
-4. Open a new PowerShell window (or reload with `. $PROFILE`).
-
-### Try it
-
+#### Option 1: npm
 ```powershell
-somebadcommand    # plays the sound
-Get-ChildItem     # silent (success)
+npm install -g errorsound
+errorsound install
 ```
 
-### Uninstall
-
+#### Option 2: One-Line PowerShell Install
+Open **PowerShell** and run:
 ```powershell
-.\uninstall.ps1
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force
+iwr -useb https://raw.githubusercontent.com/nikhilagrawxl/errorsound/main/install.ps1 | iex
 ```
-
-Windows uses `sound.wav` (PowerShell's audio player only supports `.wav`).
-If no sound is bundled, it falls back to a system beep.
 
 ---
 
-## macOS menu bar app (optional GUI)
+## 🖥️ Desktop GUI App (Menu Bar / System Tray)
 
-A small menu bar app lets you toggle the error sound, pick a sound file, and
-test it — without touching the terminal. It reads and writes the same
-`~/.errorsound/config` file the shell hook uses, so changes take effect on your
-next terminal prompt automatically.
+Prefer a desktop app? Download prebuilt installers from [GitHub Releases](https://github.com/nikhilagrawxl/errorsound/releases):
 
-> The shell hook (`errorsound.sh`) is still what detects failed commands and
-> plays the sound. The menu bar app is just a control panel for it, so install
-> the hook first (`./install.sh`).
+- **macOS**: Download `errorsound-1.0.3.dmg`
+- **Windows**: Download `errorsound Setup 1.0.3.exe` (or Portable `.exe`)
+- **Linux**: Download `errorsound-1.0.3.AppImage`
 
-### Run it (dev mode)
+> 🛡️ **Note for macOS Users (Gatekeeper Notice):**  
+> macOS may show a prompt: *"Electron.app was not opened because it contains malware"* or *"cannot verify developer"*.  
+> **To allow it:**  
+> 1. Open **System Settings** → **Privacy & Security**.  
+> 2. Scroll down to **Security** and click **Open Anyway**.  
+>  
+> *Or run this command in Terminal:*  
+> ```bash
+> xattr -cr /Applications/errorsound.app
+> ```
 
-```bash
-./menubar.sh run
-```
-
-This creates a virtualenv, installs `rumps`, and launches the app. A 🔔 icon
-appears in your menu bar (🔕 when disabled). Menu options:
-
-- **Enabled** — toggle the error sound on/off
-- **Test sound** — play the current sound
-- **Choose sound file…** — pick a new `.mp3`/`.wav`/`.aiff`/`.m4a`
-- **Quit**
-
-### Build a standalone .app
-
-```bash
-./menubar.sh build
-```
-
-Produces `dist/errorsound.app`. Move it to `/Applications`, then add it to
-**System Settings → General → Login Items** to launch it at startup. It runs as
-a menu-bar-only app (no Dock icon).
-
-### Files
-
-| File            | Purpose                                    |
-|-----------------|--------------------------------------------|
-| `menubar_app.py`| The rumps menu bar UI                      |
-| `esconfig.py`   | Reads/writes `~/.errorsound/config`        |
-| `menubar.sh`    | `run` (dev) / `build` (py2app) helper      |
-| `setup.py`      | py2app build config                        |
-| `requirements.txt` | Python deps (`rumps`)                   |
+> 🛡️ **Note for Windows Users (Execution Policy Notice):**  
+> If PowerShell blocks running scripts, enable local script execution once:  
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+> ```
 
 ---
 
-## Commands (all platforms)
+## 🎮 CLI Commands
 
-| Command             | What it does                              |
-|---------------------|-------------------------------------------|
-| `soundon`           | Enable error sounds                       |
-| `soundoff`          | Disable error sounds                      |
-| `soundstatus`       | Show on/off state and current sound file  |
-| `soundfile <path>`  | Use a different sound file (this session) |
+Use the `errorsound` CLI to manage settings across any platform:
 
-## Use your own sound
+| Command | Description |
+|---|---|
+| `errorsound` / `errorsound gui` | Launch the Menu Bar / System Tray GUI |
+| `errorsound install` | Enable the error sound shell hook |
+| `errorsound uninstall` | Remove the error sound shell hook |
+| `errorsound on` | Turn error sound ON |
+| `errorsound off` | Turn error sound OFF |
+| `errorsound status` | Show current state and active sound file path |
+| `errorsound test` | Play the error sound immediately |
+| `errorsound sound <path>` | Set a custom audio file path |
 
-- **macOS/Linux**: drop a `sound.mp3` (or `.wav`) next to the installer before
-  running it, or run `soundfile <path>` at runtime.
-- **Windows**: use a `.wav` file — drop `sound.wav` next to `install.ps1`, or run
-  `soundfile C:\path\to\your.wav`.
+---
 
-## How it works
+## 🎵 Customizing Sound Files
 
-The installer copies the hook script to `~/.errorsound/` and adds a small
-sourcing snippet (between `# >>> errorsound >>>` markers) to your shell's config
-(`~/.bashrc` + `~/.zshrc`, or the PowerShell `$PROFILE`). A pre-prompt hook
-checks the last command's exit code and plays the sound on failure. On
-macOS/Linux, exit code 130 (Ctrl+C) is ignored.
+- **macOS / Linux**: Supports `.mp3`, `.wav`, `.aiff`, `.m4a`.
+  ```bash
+  errorsound sound /path/to/custom_sound.mp3
+  ```
+- **Windows**: Supports `.wav` audio files.
+  ```powershell
+  errorsound sound C:\path\to\custom_sound.wav
+  ```
 
-On macOS/Linux the on/off state and sound file are stored in
-`~/.errorsound/config` (simple `key=value` lines). The `soundon`/`soundoff`/
-`soundfile` commands and the optional menu bar app all read and write this file,
-so they stay in sync and changes persist across terminal sessions.
+---
 
-Audio backend by platform:
-- macOS: `afplay`
-- Linux: `paplay` → `aplay` → terminal bell
-- Windows: `System.Media.SoundPlayer` → `[console]::beep()` fallback
+## ⚙️ How It Works
 
-## Files
+- **macOS / Linux**: Registers a lightweight `precmd` hook in `~/.zshrc` or `~/.bashrc`. Plays audio asynchronously using macOS native `afplay` or Linux `paplay`/`aplay`. Exit code `130` (Ctrl+C) is automatically ignored.
+- **Windows**: Registers a prompt wrapper in your PowerShell `$PROFILE`. Plays `.wav` audio natively using `System.Media.SoundPlayer`.
+- Preferences are stored in `~/.errorsound/config` so the CLI, shell hooks, and GUI stay in sync automatically.
 
-| File             | Platform        |
-|------------------|-----------------|
-| `errorsound.sh`  | macOS / Linux   |
-| `install.sh`     | macOS / Linux   |
-| `uninstall.sh`   | macOS / Linux   |
-| `errorsound.ps1` | Windows         |
-| `install.ps1`    | Windows         |
-| `uninstall.ps1`  | Windows         |
-| `sound.mp3`      | bundled sound (macOS/Linux) |
-| `sound.wav`      | bundled sound (Windows)     |
+---
+
+## 🗑️ Uninstall
+
+- **macOS / Linux**:
+  ```bash
+  errorsound uninstall
+  # Or via Homebrew: brew uninstall nikhilagrawxl/tap/errorsound
+  ```
+- **Windows**:
+  ```powershell
+  errorsound uninstall
+  # Or via npm: npm uninstall -g errorsound
+  ```
+
+---
+
+## 📄 License
+MIT License © [Nikhil Agrawal](https://github.com/nikhilagrawxl)

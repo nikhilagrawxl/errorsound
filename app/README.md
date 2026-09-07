@@ -1,47 +1,66 @@
-# errorsound (cross-platform app + CLI)
+# 🔊 errorsound (app)
 
-Play a sound whenever a terminal command fails — with a clickable tray / menu
-bar app that works the same on **macOS, Windows, and Linux**, plus a CLI.
+Play a sound whenever a terminal command fails — cross-platform tray / menu bar GUI app + CLI for **macOS, Windows, and Linux**.
 
-The app is an Electron tray icon. It reads/writes `~/.errorsound/config`, the
-same file the shell hook uses, so toggling in the GUI instantly affects your
-terminal (the hook re-reads config before each prompt).
+---
 
-## For users
+## ⚡ Installation
 
-### Option A — install from npm (all platforms)
+### 🍏 macOS / Linux
 
+#### Homebrew (Recommended)
 ```bash
-npm install -g errorsound
-errorsound install     # sets up the shell hook (bash/zsh, or PowerShell on Windows)
-errorsound             # launch the tray / menu bar app
+brew install nikhilagrawxl/tap/errorsound
+errorsound install
 ```
 
-Open a new terminal after `install`. Then a failed command plays a sound.
+#### npm
+```bash
+npm install -g errorsound
+errorsound install
+```
 
-### Option B — download a prebuilt app
+#### Curl One-Liner
+```bash
+curl -fsSL https://raw.githubusercontent.com/nikhilagrawxl/errorsound/main/install.sh | bash
+```
 
-Grab the installer for your OS from the GitHub Releases page:
-- **macOS**: `errorsound-x.y.z.dmg` — open it, drag to Applications.
-  First launch: right-click the app -> **Open** (it's unsigned, so Gatekeeper
-  asks once).
-- **Windows**: `errorsound Setup x.y.z.exe` (installer) or the portable `.exe`.
-- **Linux**: `errorsound-x.y.z.AppImage` — `chmod +x` then run.
+---
 
-In the app, use **Install shell hook** once so your terminal starts playing
-sounds on failed commands.
+### 🪟 Windows (PowerShell)
 
-### Using the app
+#### npm
+```powershell
+npm install -g errorsound
+errorsound install
+```
 
-Click the tray icon (on = filled bell, off = outline):
+#### PowerShell One-Liner
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force
+iwr -useb https://raw.githubusercontent.com/nikhilagrawxl/errorsound/main/install.ps1 | iex
+```
 
-- **Enabled** — toggle the error sound
-- **Test sound** — play the current sound now
-- **Choose sound file...** — pick your own `.mp3`/`.wav`/`.aiff`/`.m4a`
-- **Install / Uninstall shell hook**
-- **Quit**
+---
 
-### CLI reference
+## 🖥️ Standalone Desktop App (Releases)
+
+Download prebuilt binaries for **macOS**, **Windows**, and **Linux** from [GitHub Releases](https://github.com/nikhilagrawxl/errorsound/releases):
+
+- **macOS**: `errorsound-1.0.3.dmg`
+- **Windows**: `errorsound Setup 1.0.3.exe` (or Portable `.exe`)
+- **Linux**: `errorsound-1.0.3.AppImage`
+
+> 🛡️ **macOS Gatekeeper Notice:**  
+> On macOS, if you see *"Electron.app was not opened because it contains malware"* or *"cannot verify developer"*:  
+> 1. Go to **System Settings** → **Privacy & Security**.  
+> 2. Scroll to **Security** and click **Open Anyway**.  
+>  
+> *Or run in Terminal:* `xattr -cr /Applications/errorsound.app`
+
+---
+
+## 🎮 CLI Usage
 
 ```
 errorsound              launch the tray/menu-bar GUI
@@ -50,60 +69,24 @@ errorsound uninstall    remove the shell hook
 errorsound on           enable the error sound
 errorsound off          disable the error sound
 errorsound status       show state + current sound file
-errorsound sound <file> set the sound file
+errorsound sound <file> set custom sound file
 errorsound test         play the current sound
 ```
 
-## For developers
+---
+
+## 💻 Developer Setup
 
 ```bash
-npm install       # install deps (Electron + electron-builder)
-npm start         # run the app locally (electron .)
-npm test          # headless tests (config + hook interop + CLI)
-npm run cli -- status   # run the CLI in dev
+npm install       # install dependencies
+npm start         # launch local Electron GUI
+npm test          # run CLI and config test suite
 ```
 
-### Build installers
+### Build Installers Locally
 
 ```bash
 npm run dist:mac  # -> dist/*.dmg, *.zip   (run on macOS)
 npm run dist:win  # -> dist/*.exe          (run on Windows)
 npm run dist      # current platform
 ```
-
-Note: cross-OS packaging is easiest when built on each OS (Windows `.exe` on
-Windows, `.dmg` on macOS). GitHub Actions can build all three in CI.
-
-### Project layout
-
-```
-app/
-├── src/
-│   ├── main.js        Electron tray app
-│   ├── cli.js         CLI entry (bin: errorsound)
-│   ├── config.js      read/write ~/.errorsound/config
-│   ├── installer.js   install/uninstall shell hook (bash/zsh/PowerShell)
-│   └── player.js      cross-platform "Test sound"
-├── shell/             hook scripts bundled into the app (errorsound.sh/.ps1)
-├── assets/            tray + app icons
-└── test/run.js        headless tests
-```
-
-## Publishing to GitHub + npm
-
-1. Create a public GitHub repo and push this project.
-2. Update `repository.url` and `author` in `package.json`.
-3. **npm**: `npm login` then `npm publish` (package name `errorsound` must be
-   free; otherwise scope it as `@yourname/errorsound`).
-4. **GitHub Releases**: run the `dist:*` builds on each OS (or via GitHub
-   Actions) and upload the artifacts from `dist/` to a release tag.
-5. Optional: a GitHub Actions workflow with a matrix (macos/windows/ubuntu) can
-   auto-build and attach installers to each release.
-
-## Notes / limitations
-
-- The **shell hook** is what detects failed commands; the app is a control panel
-  for it. Always run `errorsound install` (or the app's Install menu) once.
-- macOS builds are **unsigned** unless you add an Apple Developer ID
-  ($99/yr) — users right-click -> Open on first launch.
-- Windows sounds use `.wav`; the app bundles a `.wav` for that platform.
