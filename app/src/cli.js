@@ -17,17 +17,19 @@ const player = require("./player");
 const cmd = process.argv[2];
 const arg = process.argv[3];
 
-function launchGui() {
+function launchGui(silent = false) {
   // Launch electron with this app directory.
   let electron;
   try {
     electron = require("electron"); // resolves to the electron binary path
   } catch (e) {
-    console.error("Electron is not installed. Run `npm install` first, or use the CLI commands.");
-    process.exit(1);
+    if (!silent) {
+      console.error("Electron is not installed or available. Use the CLI commands.");
+    }
+    return;
   }
   const appDir = path.join(__dirname, "..");
-  const child = spawn(electron, [appDir], { stdio: "inherit", detached: true });
+  const child = spawn(electron, [appDir], { stdio: "ignore", detached: true });
   child.unref();
 }
 
@@ -36,11 +38,23 @@ switch (cmd) {
   case "gui":
     launchGui();
     break;
+  case "postinstall": {
+    try {
+      installer.install();
+    } catch (e) {}
+    try {
+      launchGui(true);
+    } catch (e) {}
+    break;
+  }
   case "install": {
     const files = installer.install();
     console.log("Installed errorsound hook. Updated:");
     files.forEach((f) => console.log("  " + f));
     console.log("Open a new terminal (or reload your shell) to activate.");
+    try {
+      launchGui();
+    } catch (e) {}
     break;
   }
   case "uninstall": {

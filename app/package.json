@@ -1,6 +1,6 @@
 {
   "name": "errorsound",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Play a sound when a terminal command fails. Cross-platform tray/menu-bar app + CLI.",
   "license": "MIT",
   "author": "Nikhil Agrawal",
@@ -19,6 +19,7 @@
     "errorsound": "src/cli.js"
   },
   "scripts": {
+    "postinstall": "node src/cli.js postinstall",
     "start": "electron .",
     "cli": "node src/cli.js",
     "test": "node test/run.js",
@@ -27,10 +28,10 @@
     "dist:win": "electron-builder --win"
   },
   "dependencies": {
+    "electron": "31.7.7",
     "sound-play": "1.1.0"
   },
   "devDependencies": {
-    "electron": "31.7.7",
     "electron-builder": "24.13.3"
   },
   "build": {
