@@ -1,0 +1,64 @@
+{
+  "name": "errorsound",
+  "version": "1.0.0",
+  "description": "Play a sound when a terminal command fails. Cross-platform tray/menu-bar app + CLI.",
+  "license": "MIT",
+  "author": "Nikhil Agrawal",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikhilagrawal/errorsound.git"
+  },
+  "main": "src/main.js",
+  "files": [
+    "src/**/*",
+    "assets/**/*",
+    "shell/**/*",
+    "README.md"
+  ],
+  "bin": {
+    "errorsound": "src/cli.js"
+  },
+  "scripts": {
+    "start": "electron .",
+    "cli": "node src/cli.js",
+    "test": "node test/run.js",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win"
+  },
+  "dependencies": {
+    "sound-play": "1.1.0"
+  },
+  "devDependencies": {
+    "electron": "31.7.7",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "com.nikhil.errorsound",
+    "productName": "errorsound",
+    "publish": [
+      { "provider": "github", "owner": "REPLACE_WITH_YOUR_GITHUB_USERNAME", "repo": "errorsound" }
+    ],
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "shell/**/*"
+    ],
+    "extraResources": [
+      { "from": "shell", "to": "shell" }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": ["dmg", "zip"],
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Utility"
+    }
+  }
+}

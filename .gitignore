@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# backups created by uninstall
+*.errorsound.bak
+
+# Python / menu bar app
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.egg-info/
+
+# Node / Electron app
+node_modules/
+app/node_modules/
+app/dist/
+app/build/
