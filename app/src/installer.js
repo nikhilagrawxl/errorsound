@@ -117,11 +117,12 @@ ${MARK_END}`;
 }
 
 function install() {
+  const result = process.platform === "win32" ? installWindows() : installUnix();
   // Ensure a config exists so GUI + hook agree from the start.
   if (!fs.existsSync(config.CONFIG_PATH)) {
     config.write({ enabled: "1", sound: config.defaultSound() });
   }
-  return process.platform === "win32" ? installWindows() : installUnix();
+  return result;
 }
 
 function uninstall() {

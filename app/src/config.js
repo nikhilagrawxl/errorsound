@@ -14,8 +14,10 @@ const HOME = process.env.ERROR_SOUND_HOME
 const CONFIG_PATH = path.join(HOME, "config");
 
 function defaultSound() {
-  const bundled = path.join(HOME, "sound.mp3");
-  if (fs.existsSync(bundled)) return bundled;
+  const mp3 = path.join(HOME, "sound.mp3");
+  if (fs.existsSync(mp3)) return mp3;
+  const wav = path.join(HOME, "sound.wav");
+  if (fs.existsSync(wav)) return wav;
   if (process.platform === "darwin") return "/System/Library/Sounds/Basso.aiff";
   return ""; // empty => hook falls back to a beep
 }

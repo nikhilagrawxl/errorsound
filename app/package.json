@@ -1,6 +1,6 @@
 {
   "name": "errorsound",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Play a sound when a terminal command fails. Cross-platform tray/menu-bar app + CLI.",
   "license": "MIT",
   "author": "Nikhil Agrawal",
