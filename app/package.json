@@ -37,7 +37,11 @@
     "appId": "com.nikhil.errorsound",
     "productName": "errorsound",
     "publish": [
-      { "provider": "github", "owner": "nikhilagrawxl", "repo": "errorsound" }
+      {
+        "provider": "github",
+        "owner": "nikhilagrawxl",
+        "repo": "errorsound"
+      }
     ],
     "files": [
       "src/**/*",
@@ -45,19 +49,30 @@
       "shell/**/*"
     ],
     "extraResources": [
-      { "from": "shell", "to": "shell" }
+      {
+        "from": "shell",
+        "to": "shell"
+      }
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "icon": "assets/icon.icns"
     },
     "win": {
-      "target": ["nsis", "portable"],
+      "target": [
+        "nsis",
+        "portable"
+      ],
       "icon": "assets/icon.png"
     },
     "linux": {
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "category": "Utility"
     }
   }
