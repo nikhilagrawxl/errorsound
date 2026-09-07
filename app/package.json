@@ -1,7 +1,7 @@
 {
   "name": "errorsound",
   "version": "1.0.3",
-  "description": "Play a sound when a terminal command fails. Cross-platform tray/menu-bar app + CLI.",
+  "description": "Play the iconic FAAH sound when a terminal command fails. Cross-platform tray/menu-bar app + CLI.",
   "license": "MIT",
   "author": "Nikhil Agrawal",
   "repository": {
@@ -10,16 +10,18 @@
   },
   "keywords": [
     "errorsound",
+    "faah",
+    "faah-sound",
+    "fah",
+    "meme-sound",
     "error-sound",
     "terminal-sound",
     "command-line",
     "cli",
-    "sound-effects",
     "zsh-plugin",
     "powershell",
     "bash-hook",
-    "terminal-bell",
-    "developer-tools"
+    "developer-humor"
   ],
   "main": "src/main.js",
   "files": [

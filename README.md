@@ -1,6 +1,8 @@
-# 🔊 errorsound
+# 🔊 errorsound (FAAH!)
 
-Play a sound whenever a terminal command fails (non-zero exit code).
+Play the iconic **"FAAH!"** sound effect whenever a terminal command fails (non-zero exit code).
+
+Never suffer in silence when your build breaks, a git command fails, or a typo strikes! 🗣️💨
 
 Available for **macOS**, **Windows (PowerShell)**, and **Linux**. Includes both a lightweight **CLI tool** and a **Menu Bar / System Tray GUI app**.
 
